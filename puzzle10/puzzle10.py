@@ -2,7 +2,10 @@ def process_blocks(input_file):
     with open(input_file) as file:
         inputs, *blocks = file.read().split("\n\n")
 
-    seeds = [(start, start + interval) for start, interval in zip(*[iter(map(int, inputs.split(":")[1].split()))]*2)]
+    seeds = [
+        (start, start + interval)
+        for start, interval in zip(*[iter(map(int, inputs.split(":")[1].split()))] * 2)
+    ]
 
     for block in blocks:
         ranges = [list(map(int, line.split())) for line in block.splitlines()[1:]]
@@ -26,4 +29,5 @@ def process_blocks(input_file):
 
     return min(seeds)[0]
 
-print(process_blocks('input.txt'))
+
+print(process_blocks("input.txt"))

@@ -1,6 +1,8 @@
 from collections import Counter
+
+
 def solution(file):
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         lines = f.readlines()
 
     bids = []
@@ -9,9 +11,9 @@ def solution(file):
     def score(hand):
         def type(hand):
             count = Counter(hand)
-            j = count.pop('J', 0)
+            j = count.pop("J", 0)
             max_v = 0
-            max_k = ''
+            max_k = ""
             for k, v in count.items():
                 if v > max_v:
                     max_v = v
@@ -33,10 +35,12 @@ def solution(file):
                 return 2
             else:
                 return 1
+
         def index(card):
-            return 'J23456789TJQKA'.index(card)
+            return "J23456789TJQKA".index(card)
+
         return (type(hand), *map(index, hand))
-        
+
     for line in lines:
         hand, bid = line.split()
         bids.append(int(bid))
@@ -44,7 +48,8 @@ def solution(file):
     hands.sort(key=lambda x: score(x[0]))
     res = 0
     for i, (hand, idx) in enumerate(hands):
-        res += (i+1) * bids[idx]
+        res += (i + 1) * bids[idx]
     return res
 
-print(solution('input.txt'))
+
+print(solution("input.txt"))

@@ -1,7 +1,8 @@
 from collections import defaultdict
 
+
 def solution(file):
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         lines = f.readlines()
     sum = 0
     d = defaultdict(dict)
@@ -9,11 +10,11 @@ def solution(file):
         line = lines[i].strip()
         j = 0
         while j < len(line):
-            if line[j] == '.':
+            if line[j] == ".":
                 j += 1
-            elif '0' <= line[j] <= '9':
+            elif "0" <= line[j] <= "9":
                 k = j + 1
-                while k < len(line) and '0' <= line[k] <= '9':
+                while k < len(line) and "0" <= line[k] <= "9":
                     k += 1
                 d[i][j] = (k - 1, int(line[j:k]))
                 j = k
@@ -51,4 +52,5 @@ def solution(file):
                 sum += prod
     return sum
 
-print(solution('input.txt'))
+
+print(solution("input.txt"))

@@ -1,7 +1,8 @@
 from math import comb
 
+
 def solution(file):
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         lines = [list(map(int, line.split())) for line in f.readlines()]
 
     def find_next(line):
@@ -10,4 +11,5 @@ def solution(file):
 
     return sum((find_next(line) for line in lines))
 
-print(solution('input.txt'))
+
+print(solution("input.txt"))

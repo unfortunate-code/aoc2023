@@ -1,9 +1,10 @@
 from bisect import bisect_left, bisect_right
 
+
 def solution(file):
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         lines = f.readlines()
-    
+
     mode_changed = False
 
     def update(input, output, source, dest, range_val):
@@ -13,11 +14,11 @@ def solution(file):
             output[i] = dest + input[i] - source
 
     for line in lines:
-        if line.startswith('seeds'):
-            output = [int(x) for x in line.split(': ')[1].split()]
-        elif 'map' in line:
+        if line.startswith("seeds"):
+            output = [int(x) for x in line.split(": ")[1].split()]
+        elif "map" in line:
             mode_changed = True
-        elif line == '\n':
+        elif line == "\n":
             continue
         else:
             if mode_changed:
@@ -28,6 +29,5 @@ def solution(file):
             update(input, output, source, dest, range_val)
     return min(output)
 
-print(solution('input.txt'))
-            
-            
+
+print(solution("input.txt"))

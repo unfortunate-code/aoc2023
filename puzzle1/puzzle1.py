@@ -4,7 +4,12 @@ def solution(file):
         last_digit = next((int(c) for c in reversed(s) if c.isdigit()), 0)
         return first_digit, last_digit
 
-    with open(file, 'r') as f:
-        return sum(first * 10 + last for line in f for first, last in [first_and_last_digit(line)])
+    with open(file, "r") as f:
+        return sum(
+            first * 10 + last
+            for line in f
+            for first, last in [first_and_last_digit(line)]
+        )
 
-print(solution('input.txt'))
+
+print(solution("input.txt"))
