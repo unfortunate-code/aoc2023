@@ -17,8 +17,7 @@ def solution(file, expansion):
     cols = list(accumulate(cols))
 
     X, Y = zip(*[(x + rows[x], y + cols[y]) for x, y in galaxies])
-    X.sort()
-    Y.sort()
+    X, Y = sorted(X), sorted(Y)
     n = len(X)
     return (
         2 * sum(i * x for i, x in enumerate(X))
