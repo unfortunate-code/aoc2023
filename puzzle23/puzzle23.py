@@ -1,60 +1,54 @@
 from functools import cache
 
+
+def parse_file(file):
+    with open(file, "r") as f:
+        return [line.split() for line in f]
+
+
+def count_hashes(pattern):
+    count = 0
+    for char in reversed(pattern):
+        if char == "#":
+            count += 1
+        yield count
+
+
 def solution(file):
-    patterns, rules = [], []
-    with open(file, 'r') as f:
-        for line in f:
-            p, r = line.split()
-            patterns.append(p)
-            rules.append(list(map(int, r.split(','))))
-    def count(p, r):
-        freq = [0] * len(p)
-        freq[-1] = 1 if p[-1] == "#" else 0
-        for i in range(len(p) - 1):
-            j = len(p) - i - 2
-            if p[j] == "#":
-                freq[j] = freq[j + 1] + 1
-            else:
-                freq[j] = freq[j + 1]
+    def count(pattern, rule):
+        freq = list(count_hashes(pattern))[::-1]
+        rule = list(map(int, rule.split(",")))
+
         @cache
-        def inner(i_r, i_p, flip):
-            if i_r == len(r) and (i_p == len(p) or freq[i_p] == 0):
+        def inner(i_r, i_p, curr):
+            if i_r == len(rule) and (i_p == len(pattern) or freq[i_p] == 0):
                 return 1
-            if i_r == len(r):
+            if i_r == len(rule) - 1 and i_p == len(pattern) and curr == rule[i_r]:
+                return 1
+            if i_r == len(rule) or i_p == len(pattern):
                 return 0
-            if i_p == len(p):
-                return 0
-            curr = 0
-            while i_p < len(p) and i_r < len(r):
-                if p[i_p] == '.':
-                    i_p += 1
-                    if curr == r[i_r]:
-                        return inner(i_r + 1, i_p, False)
-                    elif 0 < curr < r[i_r]:
+
+            if pattern[i_p] in ".#":
+                if curr == rule[i_r]:
+                    if pattern[i_p] == "#":
                         return 0
+                    i_r += 1
                     curr = 0
-                elif flip or p[i_p] == '#':
-                    flip = False
-                    i_p += 1
-                    curr += 1
-                    if curr > r[i_r]:
-                        return 0
-                elif p[i_p] == "?":
-                    if curr == r[i_r]:
-                        return inner(i_r + 1, i_p + 1, False)
-                    elif 0 < curr < r[i_r]:
-                        i_p += 1
-                        curr += 1
-                    else:
-                        return inner(i_r, i_p, True) + inner(i_r, i_p + 1, False)
-            if curr != r[i_r]:
-                return 0
-            return inner(i_r + 1, i_p, False)
-        return inner(0, 0, False)
-    
-    return sum(count(p, r) for p, r in zip(patterns, rules))
+                if pattern[i_p] == "." and 0 < curr < rule[i_r]:
+                    return 0
+                curr += pattern[i_p] == "#"
+                return inner(i_r, i_p + 1, curr)
+            else:
+                if curr == rule[i_r]:
+                    return inner(i_r + 1, i_p + 1, 0)
+                if 0 < curr < rule[i_r]:
+                    return inner(i_r, i_p + 1, curr + 1)
+                return inner(i_r, i_p + 1, 1) + inner(i_r, i_p + 1, 0)
+
+        return inner(0, 0, 0)
+
+    patterns_rules = parse_file(file)
+    return sum(count(pattern, rule) for pattern, rule in patterns_rules)
+
 
 print(solution("input.txt"))
-
-                
-            
