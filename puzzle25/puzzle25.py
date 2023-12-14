@@ -10,6 +10,13 @@ def solution(file):
             int("".join("1" if c == "#" else "0" for c in line), 2) for line in lines
         ]
 
+    def count_set_bits(n):
+        count = 0
+        while n:
+            n &= n - 1
+            count += 1
+        return count
+
     def find_mirror(lines):
         r = map_to_int(lines)
         for i in range(len(r) - 1):
@@ -19,7 +26,7 @@ def solution(file):
                 else (r[i + 1 - len(r[i + 1 :]) : i + 1], r[i + 1 :])
             )
             if (
-                sum(bin(top[j] ^ bottom[~j]).count("1") for j in range(len(top)))
+                sum(count_set_bits(top[j] ^ bottom[~j]) for j in range(len(top)))
                 == NUM_SMUDGES
             ):
                 return i
