@@ -13,6 +13,8 @@ def solution(file):
     while q:
         h, n, d, c = heapq.heappop(q)
         nn = (n[0] + d[0], n[1] + d[1])
+        if nn == (0, 0):
+            continue
         nh = h + int(lines[nn[0]][nn[1]])
         if nh > res:
             continue
