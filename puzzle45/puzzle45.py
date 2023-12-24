@@ -1,5 +1,5 @@
 def solution(file):
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         lines = f.read().splitlines()
 
     directions = {
@@ -7,7 +7,7 @@ def solution(file):
         ">": [(0, 1)],
         "<": [(0, -1)],
         "^": [(-1, 0)],
-        "v": [(1, 0)]
+        "v": [(1, 0)],
     }
 
     def iterative_dfs():
@@ -23,10 +23,16 @@ def solution(file):
             visited_copy.add((x, y))
             for dx, dy in directions[lines[x][y]]:
                 nx, ny = x + dx, y + dy
-                if 0 <= nx < len(lines) and 0 <= ny < len(lines[0]) and (nx, ny) not in visited_copy and lines[nx][ny] != "#":
+                if (
+                    0 <= nx < len(lines)
+                    and 0 <= ny < len(lines[0])
+                    and (nx, ny) not in visited_copy
+                    and lines[nx][ny] != "#"
+                ):
                     stack.append((nx, ny, dist + 1, visited_copy.copy()))
         return max_distance
-    
+
     return iterative_dfs()
+
 
 print(solution("input.txt"))

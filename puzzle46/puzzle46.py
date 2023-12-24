@@ -1,9 +1,9 @@
 from pprint import pprint
 
-def solution(file):
-    with open(file, 'r') as f:
-        lines = f.read().splitlines()
 
+def solution(file):
+    with open(file, "r") as f:
+        lines = f.read().splitlines()
 
     adj = {}
     for i in range(len(lines)):
@@ -20,7 +20,7 @@ def solution(file):
                 if (i, j) not in adj:
                     adj[(i, j)] = []
                 adj[(i, j)].append((i + d[0], j + d[1]))
-                
+
     next = {}
     for k in adj:
         next[k] = []
@@ -54,7 +54,8 @@ def solution(file):
             for (nx, ny), d in N:
                 stack.append((nx, ny, dist + d, visited.copy()))
         return max_distance
-    
+
     return iterative_dfs()
+
 
 print(solution("input.txt"))
